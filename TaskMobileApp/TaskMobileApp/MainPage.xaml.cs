@@ -22,9 +22,17 @@ namespace TaskMobileApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private Models.TaskManager _taskManager = new Models.TaskManager();
+
         public MainPage()
         {
             this.InitializeComponent();
+            _taskManager.RefreshTasksAsync();
+        }
+
+        private void AddTaskAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            return;
         }
     }
 }
