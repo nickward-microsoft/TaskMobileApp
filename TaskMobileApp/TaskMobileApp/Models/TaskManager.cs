@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace TaskMobileApp.Models
 {
-    class TaskManager
+    public class TaskManager
     {
         private ObservableCollection<Task> taskList = new ObservableCollection<Task>();
         public ObservableCollection<Task> Tasks { get { return taskList; } }

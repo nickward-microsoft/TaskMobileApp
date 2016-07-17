@@ -22,12 +22,18 @@ namespace TaskMobileApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private Models.TaskManager _taskManager = new Models.TaskManager();
+        private Models.TaskManager _taskManager = TaskMobileApp.App._taskManager;
 
         public MainPage()
         {
             this.InitializeComponent();
             _taskManager.RefreshTasksAsync();
+            FlyoutAddTaskUserControl.TaskAdded += FlyoutAddTaskUserControl_TaskAdded;
+        }
+
+        private void FlyoutAddTaskUserControl_TaskAdded(object sender, Controls.TaskAddedEventArgs e)
+        {
+            _taskManager.AddTaskAsync(e.AddedTask);
         }
 
         private void AddTaskAppBarButton_Click(object sender, RoutedEventArgs e)
