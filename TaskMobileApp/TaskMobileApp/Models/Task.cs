@@ -10,6 +10,6 @@ namespace TaskMobileApp.Models
     {
         public int TaskId { get; set; }
         public string Name { get; set; }
-        public bool Complete { get; set; }
+        public bool? Complete { get; set; }
     }
 }

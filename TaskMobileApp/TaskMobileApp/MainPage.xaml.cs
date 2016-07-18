@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,7 +25,7 @@ namespace TaskMobileApp
     {
         private Models.TaskManager _taskManager = TaskMobileApp.App._taskManager;
 
-        public MainPage()
+       public MainPage()
         {
             this.InitializeComponent();
             _taskManager.RefreshTasksAsync();
@@ -39,6 +40,17 @@ namespace TaskMobileApp
         private void AddTaskAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             return;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox s = sender as CheckBox;
+            var taskId = s.Tag as int?;
+            if(taskId >= 0)
+            {
+                _taskManager.CompleteTaskAsync(taskId.Value);
+            }
+
         }
     }
 }

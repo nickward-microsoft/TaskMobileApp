@@ -14,7 +14,7 @@ namespace TaskMobileApp.Models
     {
         private ObservableCollection<Task> taskList = new ObservableCollection<Task>();
         public ObservableCollection<Task> Tasks { get { return taskList; } }
-
+        
         private string hectagonapikey = TaskMobileApp.Secrets.hectagonapikey;
 
         public async System.Threading.Tasks.Task CompleteTaskAsync(int TaskIDToComplete)
