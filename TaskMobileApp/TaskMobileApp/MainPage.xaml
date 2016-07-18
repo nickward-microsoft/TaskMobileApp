@@ -22,11 +22,12 @@
         </AppBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
-        <ListBox Name="TaskListView" ItemsSource="{x:Bind _taskManager.Tasks}">
+        <ListBox Name="TaskListView" ItemsSource="{x:Bind Path=_taskManager.Tasks}">
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="models:Task">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{x:Bind Name}"/>
+                        <CheckBox IsChecked="{x:Bind Complete}" Tag="{x:Bind TaskId}" VerticalAlignment="Center" Checked="CheckBox_Checked"/>
+                        <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
