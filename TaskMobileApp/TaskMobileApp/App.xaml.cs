@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
+using Windows.Networking.PushNotifications;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace TaskMobileApp
 {
@@ -23,6 +26,11 @@ namespace TaskMobileApp
     sealed partial class App : Application
     {
         public static Models.TaskManager _taskManager = new Models.TaskManager();
+        public static MobileServiceClient MobileService =
+            new MobileServiceClient(
+                "https://taskmobileappservice.azurewebsites.net"
+            );
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -38,7 +46,7 @@ namespace TaskMobileApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -46,6 +54,8 @@ namespace TaskMobileApp
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            await InitNotificationsAsync();
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -102,6 +112,16 @@ namespace TaskMobileApp
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private async Task InitNotificationsAsync()
+        {
+            // Get a channel URI from WNS.
+            var channel = await PushNotificationChannelManager
+                .CreatePushNotificationChannelForApplicationAsync();
+
+            // Register the channel URI with Notification Hubs.
+            await App.MobileService.GetPush().RegisterAsync(channel.Uri);
         }
     }
 }
