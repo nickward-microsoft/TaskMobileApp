@@ -16,7 +16,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 using Windows.Networking.PushNotifications;
-using Microsoft.WindowsAzure.MobileServices;
+//using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.Messaging;
 
 namespace TaskMobileApp
 {
@@ -26,10 +27,10 @@ namespace TaskMobileApp
     sealed partial class App : Application
     {
         public static Models.TaskManager _taskManager = new Models.TaskManager();
-        public static MobileServiceClient MobileService =
-            new MobileServiceClient(
-                "https://taskmobileappservice.azurewebsites.net"
-            );
+        //public static MobileServiceClient MobileService =
+        //    new MobileServiceClient(
+        //        "https://taskmobileserviceufjz75z7vr2ty.azurewebsites.net"
+        //    );
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -121,7 +122,9 @@ namespace TaskMobileApp
                 .CreatePushNotificationChannelForApplicationAsync();
 
             // Register the channel URI with Notification Hubs.
-            await App.MobileService.GetPush().RegisterAsync(channel.Uri);
+            //await App.MobileService.GetPush().RegisterAsync(channel.Uri);
+            var hub = new NotificationHub(Secrets.notificationHubName, Secrets.notificationHubSAS);
+            var result = await hub.RegisterNativeAsync(channel.Uri);
         }
     }
 }
