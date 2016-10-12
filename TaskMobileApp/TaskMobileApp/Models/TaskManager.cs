@@ -52,11 +52,11 @@ namespace TaskMobileApp.Models
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", hectagonapikey);
 
                 HttpResponseMessage response = await client.GetAsync("task");
-                ObservableCollection<Task> newTaskList = new ObservableCollection<Task>();
                 if (response.IsSuccessStatusCode)
                 {
-                    newTaskList = await response.Content.ReadAsAsync<ObservableCollection<Task>>();
-                    foreach(var t in newTaskList)
+                    var newTaskList = await response.Content.ReadAsAsync<ObservableCollection<Task>>();
+                    var sortedNewTaskList = newTaskList.OrderBy(i => i.Complete);
+                    foreach(var t in sortedNewTaskList)
                     {
                         taskList.Add(t);
                     }
